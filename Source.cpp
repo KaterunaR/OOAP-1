@@ -3,6 +3,11 @@
 #include <string>
 using namespace std;
 
+//Р РѕР·СЂРѕР±РёС‚Рё РїСЂРѕРіСЂР°РјСѓ, СЏРєР° РїСЂР°С†СЋС” Р·С– СЃРїРёСЃРєРѕРј РєРЅРёРі. Р РѕР·СЂРѕР±РёС‚Рё РІР»Р°СЃРЅРёР№ РєР»Р°СЃ
+//РєРѕР»РµРєС†С–СЋ, СЏРєРёР№ РјС–СЃС‚РёС‚СЊ СѓСЃС– РЅРµРѕР±С…С–РґРЅС– РјРµС‚РѕРґРё (РґРѕРґР°РІР°РЅРЅСЏ, РїРѕС€СѓРє, РІРёРґР°Р»РµРЅРЅСЏ).
+//РџРѕС€СѓРє РєРЅРёРіРё Р·РґС–Р№СЃРЅСЋРІР°С‚Рё Р·Р° Р°РІС‚РѕСЂРѕРј. Р”РѕСЃС‚СѓРї РґРѕ РµР»РµРјРµРЅС‚С–РІ РєРѕР»РµРєС†С–С— Р·РґС–Р№СЃРЅРёС‚Рё
+//Р·Р° РґРѕРїРѕРјРѕРіРѕСЋ С€Р°Р±Р»РѕРЅСѓ Proxy (Р—Р°СЃС‚СѓРїРЅРёРє).
+
 class Book {
 private:
     string title;   
@@ -20,7 +25,7 @@ public:
     }
 
     void displayBookInfo() const {
-        cout << "Назва: " << title << ", Автор: " << author << endl;
+        cout << "РќР°Р·РІР°: " << title << ", РђРІС‚РѕСЂ: " << author << endl;
     }
 };
 
@@ -38,11 +43,11 @@ public:
         for (auto it = books.begin(); it != books.end(); ++it) {
             if (it->getTitle() == title) {
                 books.erase(it);
-                cout << "Книгу видалено: " << title << endl;
+                cout << "РљРЅРёРіСѓ РІРёРґР°Р»РµРЅРѕ: " << title << endl;
                 return;
             }
         }
-        cout << "Книга з назвою " << title << " не знайдена." << endl;
+        cout << "РљРЅРёРіР° Р· РЅР°Р·РІРѕСЋ " << title << " РЅРµ Р·РЅР°Р№РґРµРЅР°." << endl;
     }
 
     Book* findBookByAuthor(const string& author) {
@@ -64,32 +69,32 @@ public:
 
 class BookCollectionProxy {
 private:
-    BookCollection* realCollection; // Вказівник на справжню колекцію книг
+    BookCollection* realCollection; 
 
 public:
     BookCollectionProxy(BookCollection* collection) : realCollection(collection) {}
 
 
     void addBook(const Book& book) {
-        cout << "Книгу було додано (Proxy)" << endl;
+        cout << "РљРЅРёРіСѓ Р±СѓР»Рѕ РґРѕРґР°РЅРѕ (Proxy)" << endl;
         realCollection->addBook(book);
     }
 
 
     void removeBook(const string& title) {
-        cout << "Книгу було видалтно (Proxy)" << endl;
+        cout << "РљРЅРёРіСѓ Р±СѓР»Рѕ РІРёРґР°Р»С‚РЅРѕ (Proxy)" << endl;
         realCollection->removeBook(title);
     }
 
 
     Book* findBookByAuthor(const string& author) {
-        cout << "Результат пошуку (Proxy)" << endl;
+        cout << "Р РµР·СѓР»СЊС‚Р°С‚ РїРѕС€СѓРєСѓ (Proxy)" << endl;
         return realCollection->findBookByAuthor(author);
     }
 
 
     void displayAllBooks() const {
-        cout << "Всі книги (Proxy)" << endl;
+        cout << "Р’СЃС– РєРЅРёРіРё (Proxy)" << endl;
         realCollection->displayAllBooks();
     }
 };
@@ -98,30 +103,30 @@ public:
 int main() {
     setlocale(LC_ALL, "Ukr");
 
-    // Створюємо об'єкт реальної колекції книг
+    //  РѕР±'С”РєС‚ СЂРµР°Р»СЊРЅРѕС— РєРѕР»РµРєС†С–С— РєРЅРёРі
     BookCollection realCollection;
 
-    // Створюємо об'єкт Proxy для доступу до реальної колекції
+    // РѕР±'С”РєС‚ Proxy РґР»СЏ РґРѕСЃС‚СѓРїСѓ РґРѕ СЂРµР°Р»СЊРЅРѕС— РєРѕР»РµРєС†С–С—
     BookCollectionProxy proxy(&realCollection);
 
 
-    proxy.addBook(Book("Кобзар", "Тарас Шевченко"));
-    proxy.addBook(Book("Гаррі Поттер", "Джоан Роулінг"));
-    proxy.addBook(Book("Кайдашева сім'я", "Іван Нечуй-Левицький"));
+    proxy.addBook(Book("РљРѕР±Р·Р°СЂ", "РўР°СЂР°СЃ РЁРµРІС‡РµРЅРєРѕ"));
+    proxy.addBook(Book("Р“Р°СЂСЂС– РџРѕС‚С‚РµСЂ", "Р”Р¶РѕР°РЅ Р РѕСѓР»С–РЅРі"));
+    proxy.addBook(Book("РљР°Р№РґР°С€РµРІР° СЃС–Рј'СЏ", "Р†РІР°РЅ РќРµС‡СѓР№-Р›РµРІРёС†СЊРєРёР№"));
 
     proxy.displayAllBooks();
 
 
-    cout << "\nШукаємо книгу за автором 'Джоан Роулінг':" << endl;
-    Book* foundBook = proxy.findBookByAuthor("Джоан Роулінг");
+    cout << "\nРЁСѓРєР°С”РјРѕ РєРЅРёРіСѓ Р·Р° Р°РІС‚РѕСЂРѕРј 'Р”Р¶РѕР°РЅ Р РѕСѓР»С–РЅРі':" << endl;
+    Book* foundBook = proxy.findBookByAuthor("Р”Р¶РѕР°РЅ Р РѕСѓР»С–РЅРі");
     if (foundBook) {
         foundBook->displayBookInfo();
     }
     else {
-        cout << "Книгу не знайдено." << endl;
+        cout << "РљРЅРёРіСѓ РЅРµ Р·РЅР°Р№РґРµРЅРѕ." << endl;
     }
 
-    proxy.removeBook("Кобзар");
+    proxy.removeBook("РљРѕР±Р·Р°СЂ");
 
     proxy.displayAllBooks();
 
